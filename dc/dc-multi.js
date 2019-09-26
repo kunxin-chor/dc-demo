@@ -13,22 +13,21 @@ let transactionsData = [
 // to create the crossfilter and pass it the dataset
 let ndx = crossfilter(transactionsData);
 
-
 // For the name vs total spending chart
 let name_dim = ndx.dimension(function(datanum){
     return datanum.name;
 });
 
-// we are only interested in spendings above 100
-name_dim.filter(function(datanum){
-
-    return datanum == 'Alice'
+let spending_dimension_filter = ndx.dimension(dc.pluck('spend'));
+spending_dimension_filter.filter(function(d){
+    return d>= 100;
 })
-
 
 let total_spend_per_person = name_dim.group().reduceSum(function(datanum){
     return datanum.spend;
 });
+
+
 
 /* global dc */
 dc.barChart("#graph")
