@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.12.0/d3.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id='draw-here'>
+    </div>
+    <script>
+        let width = 500;
+        let height = 400;
+        let my_data = [40, 20, 30, 50];
+        
+        let diagram = d3.select("#draw-here")  // $("#draw-here")
+                      .append("svg")
+                      .attr('width', width)
+                      .attr('height', height);
+                      
+        diagram.selectAll('circle')
+               .data(my_data) 
+               .enter() // To begin drawing
+               .append('circle')
+               .attr("cx", function(datanum, index){ //datanum means "data point"
+                   return 100 + (index*75)
+               })
+               .attr("cy",  height /2)
+               .attr("r", function(datanum, index){
+                   return datanum;
+               })
+               .attr('fill', function(datanum, index){
+                   if (index==0) {
+                       return 'blue';
+                   }
+                   
+                   if (index==1) {
+                       return 'red';
+                   }
+                   return "black";
+               })
+    </script>
+</body>
+</html>

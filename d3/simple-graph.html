@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.12.0/d3.js"></script>    
+    <title>Document</title>
+</head>
+<body>
+    <h3>Drawing Graphs with D3</h3>
+    
+    <!-- where the graph will be drawn in -->
+    <div id='graph'>
+          
+    </div>
+    
+    <script>
+    // settings for the graph
+    let width = 500; // width is 500
+    let height = 600; // height is 600
+    let barPadding = 1;
+    
+    // this is our dataset
+    // can be hardcoded, or fetch via API
+    let dataset = [
+        450, 100, 100, 279, 500, 25, 350, 120, 80, 130,
+        110, 102, 375, 200, 175, 168, 180, 230, 205,
+    ];
+
+    // width of each bar (aka column)
+    let colWidth = width / dataset.length;
+    
+    // width of each actual bar
+    let barWidth = colWidth- barPadding;
+    
+    // setup our SVG (the canvas)
+    let canvas = d3.select("#graph")
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
+    
+    /*
+        Same as line 38 to 41:
+        let container = d3.select("#graph");
+    
+        let canvas = container.append('svg');
+        canvas.attr('width', width);
+        canvas.attr('height', height);
+    */
+    
+    canvas.selectAll("rect")
+        .data(dataset)
+        .enter() // we want to start drawing
+        .append("rect") // create a new rect for each datapoint
+        .attr("x", function(datanum, index){
+            return index * colWidth;
+        })
+        .attr("y", function(datanum, index){
+            return height - datanum;
+        })
+        .attr('height', function(datanum, index){
+            return height;
+        })
+        .attr('width', barWidth)
+        .attr('fill', 'black')
+        
+    canvas.selectAll('text')
+        .data(dataset)
+        .enter()
+        .append("text")
+        .text(function(datanum){
+            return datanum;
+        })
+         .attr('x', function(datanum, index){
+        
+            return index * colWidth + barWidth /2; 
+        })
+        .attr('y', function(datanum, index){
+            return height - datanum - 10;
+        })
+        .attr('text-anchor', 'middle')
+        .attr('font-family', 'Verdana')
+        .attr("fill", 'red')
+        .attr('font-size','12px')
+    </script>
+</body>
+</html>
