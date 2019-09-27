@@ -18,6 +18,7 @@ let name_dim = ndx.dimension(function(datanum){
     return datanum.name;
 });
 
+// only keep data points where spend is >= 100
 let spending_dimension_filter = ndx.dimension(dc.pluck('spend'));
 spending_dimension_filter.filter(function(d){
     return d>= 100;
