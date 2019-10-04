@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+    <script>
+    
+        /* global queue */
+        /* global d3 */
+    
+        queue()
+        .defer(d3.json, 'transactions.json')
+        .defer(d3.json, 'stores.json')
+        .await(function(error, transactions, stores){
+            
+            let merged = _.map(transactions, function(each_t){
+                
+                let wanted_store = _.find(stores, function(each_s){
+                    return each_s.name == each_t.store
+                })
+                return {
+                    'name': each_t.name,
+                    'spend': each_t.spend,
+                    'address':wanted_store.address,
+                    'store_name': wanted_store.name
+                }
+            })
+        
+          
+        })
+        
+        function joinTwoArray()
+        {
+            let q= [
+            {
+                "id":1,
+                "name":"Paul"
+            },
+            {
+                "id":2,
+                "name":"John"
+            }
+        ]
+        let r = [
+            {
+                "customer_id":1,
+                "Address" : "Yishun Ring Road"
+            },
+            {
+                "customer_id":2,
+                "Address": "Jurong West St 81"
+            }
+        ];
+           
+        // let joined = _.merge(_.keyBy(q, 'id'), _.keyBy(r, 'id'));
+        // joined = _.values(joined)
+        // console.log(joined)
+        
+        let joined = _.merge( _.keyBy(q, 'id'), _.keyBy(r, 'customer_id'));
+        console.log(q);
+        console.log(_.keyBy(q, 'id'));
+        console.log(_.keyBy(r, 'customer_id'))
+        joined = _.values(joined); // convert back to an array
+        console.log(joined)
+            
+    }
+        
+     
+        
+    </script>
+</body>
+</html>
