@@ -32,7 +32,8 @@ queue()
                 .radius(90)
                 .transitionDuration(1500)
                 .dimension(name_dim)
-                .group(total_spend_per_person);
+                .group(total_spend_per_person)
+                .cap(2);
         
         // STEP 5 - Draw the barchart
         dc.renderAll();
